@@ -6,8 +6,13 @@
     <style>
         #osm_map {
             position: absolute;
-            width: 100%;
-            height: 100%;
+            width: 90%;
+            height: 90%;
+        }
+        #mouse-position{
+            position: absolute;
+            right:0;
+            bottom:0;
         }
     </style>
 
@@ -16,8 +21,9 @@
 <body>
 
 <div id="app">
-    <div id="osm_map"></div>
+    <div id="osm_map" onclick="getCoordsFromMouseCoords()"></div>
 </div>
+<div id="mouse-position"></div>
 
 <script type="module">
     let emu = new my_map.display();
