@@ -14,6 +14,7 @@ use App\Http\Controllers\PagesController;
 */
 
 Route::get('/', [PagesController::class, 'index']);
+Route::get('/maptest', [PagesController::class, 'maptest']);
 
 Auth::routes();
 
