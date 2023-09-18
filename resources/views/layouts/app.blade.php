@@ -15,6 +15,9 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    <!-- PWA -->
+    @laravelPWA
 </head>
 <body style="height: 100%">
     <div id="app">
