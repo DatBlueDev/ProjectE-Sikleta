@@ -6,19 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 
-
-class Driver extends Model implements Authenticatable
+class admin extends Model implements Authenticatable
 {
     use HasFactory;
 
-    protected $table = 'drivers'; 
+    protected $table = 'admin'; 
 
     protected $fillable = [
         'name',
         'email',
         'password',
-        'drivers_license_image',
-        'verified'
     ];
 
     /**
