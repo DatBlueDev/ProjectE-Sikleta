@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\PagesController;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +13,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', 'App\Http\Controllers\PagesController@index'); 
+Route::get('/pwd', 'App\Http\Controllers\PagesController@pwd'); 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::post('test/auth', array('uses' => 'App\Http\Controllers\TestController@postAuth'));
+
+Route::controller(App\Http\Controllers\Auth\LoginRegisterController::class)->group(function() {
+    Route::get('/driver', 'driver')->name('driver');
+    Route::post('/store', 'store')->name('store');
+    Route::get('/login', 'login')->name('login');
+    Route::post('/authenticate', 'authenticate')->name('authenticate');
+    Route::get('/dashboard', 'dashboard')->name('dashboard');
+    Route::post('/logout', 'logout')->name('logout');
 });
