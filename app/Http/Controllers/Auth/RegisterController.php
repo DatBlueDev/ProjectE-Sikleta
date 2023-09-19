@@ -53,6 +53,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'user_id_verification_image' => ['required']
         ]);
     }
 
@@ -64,10 +65,18 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        if(request()->hasFile('user_id_verification_image')){
+            $pic = request()->file('user_id_verification_image')->getClientOriginalName();
+            request()->file('user_id_verification_image')->storeAs('avatars', $user->id.'/'. $pic, '');
+            $user->update(['user_id_verification_image' => $pic]);
+        }
+
+        return $user;
     }
 }

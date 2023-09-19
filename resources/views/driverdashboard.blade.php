@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.driver_app')
 
 @section('content')
 <div class="container">
@@ -13,11 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    @if (Auth::user()->PWD == "0")
-                    {{ __('You are logged in!') }}
-                    @else
-                        {{ __('You are logged in as pwd!') }}
-                    @endif
+                    {{ __('Welcome Driver') }}
                 </div>
             </div>
         </div>
