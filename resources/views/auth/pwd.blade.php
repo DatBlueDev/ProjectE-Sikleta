@@ -5,10 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+                <div class="card-header">{{ __('Pwd Registration') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="row mb-3">
@@ -61,17 +61,18 @@
                             </div>
                         </div>
 
+                        <div class="row mb-3">
+                            <label class="col-md-4 col-form-label text-md-end" for="user_id_verification_image">{{ __('Upload Id') }}</label>
+                            <div class="col-md-6">
+                                <input type="file" class="form-control" id="user_id_verification_image" name="user_id_verification_image">
+                            </div>
+                          </div>
+
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Register') }}
                                 </button>
-                                <a href="/pwd"><button type="button" class="btn btn-secondary">
-                                    {{ __('PWD Registration') }}
-                                </button></a>
-                                <a href="/driver"><button type="button" class="btn btn-info">
-                                    {{ __('Driver Registration') }}
-                                </button></a>
                             </div>
                         </div>
 
