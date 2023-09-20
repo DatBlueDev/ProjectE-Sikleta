@@ -5,13 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - eSikleta</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css?<?php echo time(); ?>" />
-
-    <!-- SWIPER CSS -->
-    <link rel="stylesheet" href="swiper-bundle.min.css"/>
-
-    <!-- SWIPER JS -->
-    <script src="swiper-bundle.min.js"></script>
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
 </head>
 <body>
@@ -19,7 +13,7 @@
         <div class="home">
             <div class="vehicletop">
                 <div class="vehicle-container" style="text-align: justify; text-justify: inter-word;">
-                    <img src="assets/vehicle-sedan.png" alt="sedan" class="img-shadow">
+                    <img src="{{asset('storage/images/assets/vehicle-sedan.png')}}" alt="suv" class="img-shadow">
                 </div>
                 <h3 class="dark-blue fw-bold ms-3 mt-4">Sedan</h3>
                     <p class="fs-6 ms-3 me-3">Sedans are the versatile workhorses of transportation, offering a comfortable and spacious ride for up to five passengers. Perfect for your everyday journeys, they combine style and reliability to ensure a smooth and enjoyable eSikleta experience.</p>
