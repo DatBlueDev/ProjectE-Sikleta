@@ -37,16 +37,16 @@
             bottom:0;
         }
         .ol-popup {
-        position: absolute;
-        background-color: white;
-        box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-        padding: 15px;
-        border-radius: 10px;
-        border: 1px solid #cccccc;
-        bottom: 12px;
-        left: -50px;
-        min-width: 280px;
-      }
+          position: absolute;
+          background-color: white;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+          padding: 15px;
+          border-radius: 10px;
+          border: 1px solid #cccccc;
+          bottom: 12px;
+          left: -50px;
+          min-width: 280px;
+        }
       .ol-popup:after, .ol-popup:before {
         top: 100%;
         border: solid transparent;
@@ -108,10 +108,10 @@
         <div id="osm_map" onclick="getCoordsFromMouseCoords();"></div>
     </div>
     <div id="mouse-position"></div>
-    <button class="button button-primary" id="getRouteButton" onclick = "createNewRoutingRequest();">Calculate Route</button>
-    <button class="button button-primary" id="getReverseGeolocationButton" onclick = "createEtaOfRouteRequest('driving')">eta</button>
-    <button class="button button-primary" id="getAddressFromQueryButton" onclick = "createQueryForLocationRequest('cafe')">queryAddress</button>
-    <button class="button button-primary" id="getWhateverTheHellAnymoreMan" onclick = "pointQueriedLocation([-118.1871, 33.8877])">hindi ko na kaya this shit</button>
+    <button type="button" class="btn btn-primary" id="getRouteButton" onclick = "createNewRoutingRequest();">Calculate Route</button>
+    <button type="button" class="btn btn-primary" id="getReverseGeolocationButton" onclick = "createEtaOfRouteRequest('driving')">eta</button>
+    <button type="button" class="btn btn-primary" id="getAddressFromQueryButton" onclick = "createQueryForLocationRequest('cafe')">queryAddress</button>
+    <button type="button" class="btn btn-primary" id="getWhateverTheHellAnymoreMan" onclick = "pointQueriedLocation([-118.1871, 33.8877])">hindi ko na kaya this</button>
 
     <div id="info" style="display: none;"></div>
     <label for="track">
@@ -131,7 +131,6 @@
         <tr>
           <td>Name</td>
           <td>Address</td>
-          <td>Coords</td>
         </tr>
 
         

@@ -37,7 +37,21 @@ let sourceA = new VectorSource({
         })
     ]
 })
-
+let sourceB = new VectorSource({
+    features: [new Feature({
+        geometry: new Point(fromLonLat([-117.8271,33.8635])),
+    name: 'makrer3', 
+    })] 
+});
+let pointB = new VectorLayer({ 
+     source: sourceB,   style: new Style({
+        image: new Icon({
+        anchor: [0.5, 1],
+        src: '/assets/map_marker.png',
+        scale: 0.05,
+        color:"#eeeeee"
+        })
+    })   });
 let pointA = new VectorLayer({ // Placeholder function that draws a circle on a specified coordinate
     source: sourceA,
     style: new Style({
@@ -63,24 +77,7 @@ let pointC = new VectorLayer({ // Placeholder function that draws a circle on a 
         })
     }) 
 });
-let sourceB = new VectorSource({
-    features: [
-        new Feature({
-            geometry: new Point(fromLonLat([-118.2492,34.0705]))
-            
-        })
-    ]
-})
-let pointB = new VectorLayer({ // Placeholder function that draws a circle on a specified coordinate
-    source: sourceB,
-    style: new Style({
-        image: new Icon({
-        anchor: [0.5, 1],
-        src: '/assets/map_marker.png',
-        scale: 0.05
-        })
-    }) 
-});
+
 
 let map; // Initializes map 
 let mapView = new View({
@@ -180,6 +177,9 @@ const createEtaOfRouteRequest = function(travelMode) {
 
     // origin = [120.5887, 15.1830]
     // destination = [120.5769, 15.1573]
+
+
+    
     console.log("origin: " + origin + " | destination: " +  destination + " | travel mode: " +  travelMode)
     url = "https://dev.virtualearth.net/REST/v1/Routes/DistanceMatrix?origins=" + origin +"&destinations=" + destination +"&travelMode=driving&key=" + bingKey;
     console.log(url);
@@ -199,7 +199,7 @@ const createQueryForLocationRequest = function(query){
     query = encodeURIComponent(query.trim());
     let Coords = transform(sourceA.getFeatures()[0].getGeometry().getCoordinates(), 'EPSG:3857', 'EPSG:4326'); 
     Coords = [Coords[1], Coords[0]];
-    url = "https://dev.virtualearth.net/REST/v1/LocalSearch/?query=" + query + "&userLocation="+Coords + "&o=xml&key="+bingKey;
+    url = "https://dev.virtualearth.net/REST/v1/LocalSearch/?query=" + query + "&userLocation="+Coords + "&key="+bingKey;
     //&userMapView={lat,lon,lat,lon}
     console.log(url);
     let xhr = new XMLHttpRequest(); // sets up bing api request
@@ -216,22 +216,28 @@ const createQueryForLocationRequest = function(query){
 window.createQueryForLocationRequest=createQueryForLocationRequest;
 const QueryForAddress = function(xhr){
     let tableElement = document.getElementById("queryResultsTable");
-    tableElement.innerHTML ="<tr><td>Name</td><td>Address</td><td>Coords</td> </tr>";
+    tableElement.innerHTML ="<tr><td>Name</td><td>Address</td> </tr>";
     if (xhr.readyState == 4 && xhr.status == 200) {
         try{
             console.log("no error")
-            map.removeLayer(what);
         }catch(error){console.log("eor oegodfofd ho wer no nu uh:" + error)}
         console.log("Connected! " + xhr.readyState);
-        let parser = new DOMParser();
         let QueriedName, QueriedAddress, QueriedCoordinates;
-        let EstimatedTotal = parser.parseFromString(xhr.responseText,"text/xml").getElementsByTagName("EstimatedTotal")[0].childNodes[0].nodeValue;
-        for (let i = 0; i<EstimatedTotal; i++){
-            QueriedName = parser.parseFromString(xhr.responseText,"text/xml").getElementsByTagName("Name")[i].childNodes[0].nodeValue;
-            QueriedAddress = parser.parseFromString(xhr.responseText,"text/xml").getElementsByTagName("AddressLine")[i].childNodes[0].nodeValue;
-            QueriedCoordinates = [parser.parseFromString(xhr.responseText,"text/xml").getElementsByTagName("Latitude")[i].childNodes[0].nodeValue,parser.parseFromString(xhr.responseText,"text/xml").getElementsByTagName("Longitude")[i].childNodes[0].nodeValue];
-            console.log(QueriedCoordinates + " coords");
-            document.getElementById("queryResultsTable").innerHTML += '<tr onclick="pointQueriedLocation('+QueriedCoordinates.toString()+'); console.log(`helpme`)" class="queries"> <td>'+ QueriedName +"</td> <td>" + QueriedAddress + "</td> <td>" + QueriedCoordinates + "</tr>"
+        let ParsedJSONValues = JSON.parse(xhr.responseText);
+        let EstimatedTotal = ParsedJSONValues.resourceSets[0].estimatedTotal;
+        if ( EstimatedTotal >= 1){
+            for (let i = 0; i<EstimatedTotal; i++){
+                QueriedName = ParsedJSONValues.resourceSets[0].resources[i].name;
+                QueriedAddress = ParsedJSONValues.resourceSets[0].resources[i].Address.addressLine;
+                QueriedCoordinates = ParsedJSONValues.resourceSets[0].resources[i].geocodePoints[0].coordinates;
+                console.log(QueriedCoordinates + " coords i: " + i);
+
+                tableElement.innerHTML += '<tr onclick="pointQueriedLocation('+QueriedCoordinates.toString()+'); console.log(`helpme`)" class="queries"> <td>'+ QueriedName +"</td> <td>" + QueriedAddress + "</td> </tr>"
+                
+            }
+        } else
+        {
+            tableElement.innerHTML = "<h5>No Results</h5>"
         }
 
     }
@@ -241,29 +247,14 @@ const QueryForAddress = function(xhr){
 }
 let marker;
 let pointQueriedLocation = function(Lat, Long){
-    let Coords = [Long, Lat]    
+    let Coords = [Long, Lat];
+    Coords = transform(Coords,'EPSG:4326', 'EPSG:3857');
 
-    console.log("Pointed Coords: " + Coords)
-
-    map.removeLayer(marker);
-    let markerSource = new VectorSource({
-        features: [new Feature({
-        geometry: new Point(fromLonLat(Coords)),
-        name: 'makrer3', 
-        })]
-    });
-    marker = new VectorLayer({ 
-         source: markerSource,   style: new Style({
-            image: new Icon({
-            anchor: [0.5, 1],
-            src: '/assets/map_marker3.png',
-            scale: 0.05,
-            color:"#eeeeee"
-            })
-        })   });
+    sourceB.getFeatures()[0].setGeometry(new Point(Coords));
+    definePopupContents(sourceB.getFeatures()[0]); 
 
 
-    map.addLayer(marker);   
+
 }
 window.pointQueriedLocation=pointQueriedLocation;
 const EtaOfRoute = function(xhr){
@@ -271,14 +262,20 @@ const EtaOfRoute = function(xhr){
         console.log("Connected! " + xhr.readyState);
 
         let ETA = JSON.parse(xhr.responseText).resourceSets[0].resources[0].results[0].travelDuration;
+        let Dist = JSON.parse(xhr.responseText).resourceSets[0].resources[0].results[0].travelDistance;
+        const KMDisplay = document.getElementById("ETAOfRouteDisplay");
+        const ETADisplay = document.getElementById("kmOfRouteDisplay");
+
         console.log(ETA + " minutes");
+        ETADisplay.innerHTML = ETA + " minutes";
+        KMDisplay.innerHTML = Dist + " kilometers";
+
     }
     else{       
         return 0;
     }   
 }
 window.createReverseGeocodingRequest = createReverseGeocodingRequest;
-const element = document.getElementById('popup');
 
 const ReverseGeocoding = function(xhr){
     if (xhr.readyState == 4 && xhr.status == 200) {
@@ -338,10 +335,8 @@ var displayRouting = function(linestring){
 const getCoordsFromMouseCoords = function(){
     // Gets values in string form, then turns the array into a string
     var Coords = (document.querySelector('.custom-mouse-position').textContent.split(", "))
-    console.log("raw coords:" + Coords)
     var Coords = [parseFloat(Coords[0]), parseFloat(Coords[1])]
     // Converts stringified array into array with double values of coordinates
-    console.log("Coords after?: " + Coords);
     return Coords;
 }
 
@@ -449,6 +444,11 @@ const info = document.getElementById('info');
     });
 }
 console.log(my_map.returnMap)
+const calculateAll = function(){
+    createNewRoutingRequest()
+    createEtaOfRouteRequest()
+}
+window.calculateAll = calculateAll;
 window.definePopupContents = definePopupContents;
 window.getCoordsFromMouseCoords = getCoordsFromMouseCoords;
 window.my_map = my_map; 

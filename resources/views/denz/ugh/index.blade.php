@@ -6,11 +6,21 @@
     <title>Home - eSikleta</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+
+    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/js/map.js'])
+    @laravelPWA
 </head>
 <body>
     <main>
-        <div id="map-area" class="fixed-top" style="background-image: url('{{ asset('assets/mapsample.png')}}');">
+        <div id="map-area" class="fixed-top">
+            <div id="popup" class="ol-popup">
+                <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+                <div id="popup-content"></div>
+              </div>
+            <div id="app">
+                <div id="osm_map" onclick="getCoordsFromMouseCoords();"></div>
+            </div>
             <div class="menu">
                 <button class="border border-0" style="background-color: transparent;">
                     <img src=" {{asset('assets/menu-icon.png')}}" alt="menuicon" id="menu-icon" class="mt-5 ms-4 p-0 img-shadow rounded-circle btn">
@@ -74,13 +84,25 @@
 
             <div class="locquery">
                 <div class="searchbar justify-content-center align-items-center d-flex my-3">
-                    <form method="GET" action="" id="src">
-                        <input class="rounded-3 border border-2 py-2 mt-3" type="text" placeholder="Enter your destination">
-                        <button type="submit" class="btn btn-orange text-light">Search</button>
-                    </form>
+                    <div id="src">
+                        <input class="rounded-3 border border-2 py-2 mt-3" id = "destinationInput" type="text" placeholder="Enter your destination">
+                        <button type="button" onclick = "createQueryForLocationRequest(document.getElementById('destinationInput').value)" class="btn btn-orange text-light">Search</button>
+                    </div>
+                    
                 </div>
-
                 
+                <div  class = "d-flex justify-content-center text-center    ">
+                    <table id = "queryResultsTable">
+
+                    </table>
+                </div>
+                <div  class = "d-flex justify-content-center text-center    " style="background-color:rgb(39, 90, 200)">
+                    <button type="button" class="btn btn-secondary" onclick="calculateAll()" > hey </button>
+                    <div id="kmOfRouteDisplay"></div> <br>
+                    <div id="ETAOfRouteDisplay"></div> <br>
+                    <div id="PricingDisplay"></div>
+
+                </div>
                 <div class="savedplaces">
                     <h3 class="fw-bold text-light ms-3 fs-2">Saved Places</h3>
                 </div><!-- SAVED PLACES -->
@@ -153,7 +175,6 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-</script>
 <script>
     let vehicle;
     let action;
@@ -167,8 +188,30 @@
       console.log(form);
       form.action = action;
       console.log()
-  }
+  }</script>
 
-</script>
+  <script type="module">
+        let emu = new my_map.display();
+
+        let selected = null;
+            console.log("e")
+
+        my_map.returnMap().on('click', function (evt) {
+            if (selected !== null){
+                selected=null;
+            }
+            my_map.returnMap().forEachFeatureAtPixel(evt.pixel, function (f) {
+
+                selected = f;
+                definePopupContents(f); 
+                console.log(f);
+                return true;
+            }, {hitTolerance:5})
+            console.log("what");
+        });
+        startUpGeoLocation();
+    </script>
+
+
 </body>
 </html>
