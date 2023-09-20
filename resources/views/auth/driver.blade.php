@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="login" style="background-image: url('{{asset('storage/images/assets/login-bg.png')}}')">
+<div class="login" style="background-image: url('{{asset('assets/login-bg.png')}}')">
     <div class="text-center">
-        <img src="{{asset('storage/images/assets/E-Sikleta_Icon_White_512.svg')}}" alt="esikleta-icon" class="login-icon mx-auto">
+        <img src="{{asset('assets/E-Sikleta_Icon_White_512.svg')}}" alt="esikleta-icon" class="login-icon mx-auto">
     </div>
 <div class="container">
     <div class="row justify-content-center">
