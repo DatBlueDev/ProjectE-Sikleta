@@ -40,7 +40,7 @@ class PagesController extends Controller
         /* return view("pages.payment-bus"); */
     }
     public function sedan(){
-        return view("pages.payment-sevan");
+        return view("pages.payment-sedan");
     }
     public function suv(){
         return view("pages.payment-suv");
