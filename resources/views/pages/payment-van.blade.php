@@ -12,7 +12,7 @@
         <div class="home">
             <div class="vehicletop">
                 <div class="vehicle-container" style="text-align: justify; text-justify: inter-word;">
-                    <img src="{{asset('storage/images/assets/vehicle-van.png')}}" alt="suv" class="img-shadow">
+                    <img src="{{asset('assets/vehicle-van.png')}}" alt="suv" class="img-shadow">
                 </div>
                 <h3 class="dark-blue fw-bold ms-3 mt-4">Van</h3>
                     <p class="fs-6 ms-3 me-3">Vans are the ultimate choice for group outings and cargo needs, providing ample space for passengers or cargo. Versatile and accommodating, they are your go-to option for larger groups and all your hauling requirements.</p>

@@ -13,7 +13,7 @@
         <div class="home">
             <div class="vehicletop">
                 <div class="vehicle-container" style="text-align: justify; text-justify: inter-word;">
-                    <img src="{{asset('storage/images/assets/vehicle-sedan.png')}}" alt="suv" class="img-shadow">
+                    <img src="{{asset('assets/vehicle-sedan.png')}}" alt="suv" class="img-shadow">
                 </div>
                 <h3 class="dark-blue fw-bold ms-3 mt-4">Sedan</h3>
                     <p class="fs-6 ms-3 me-3">Sedans are the versatile workhorses of transportation, offering a comfortable and spacious ride for up to five passengers. Perfect for your everyday journeys, they combine style and reliability to ensure a smooth and enjoyable eSikleta experience.</p>
