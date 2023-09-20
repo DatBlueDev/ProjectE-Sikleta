@@ -49,6 +49,20 @@ let pointA = new VectorLayer({ // Placeholder function that draws a circle on a 
         })
     }) 
 });
+let sourceC = new VectorSource({
+})
+
+let pointC = new VectorLayer({ // Placeholder function that draws a circle on a specified coordinate
+    source: sourceC,
+    style: new Style({
+        image: new Icon({
+        anchor: [0.5, 1],
+        src: '/assets/map_marker3.png',
+        scale: 0.05,
+        color:"#ffffff"
+        })
+    }) 
+});
 let sourceB = new VectorSource({
     features: [
         new Feature({
@@ -201,17 +215,57 @@ const createQueryForLocationRequest = function(query){
 }
 window.createQueryForLocationRequest=createQueryForLocationRequest;
 const QueryForAddress = function(xhr){
+    let tableElement = document.getElementById("queryResultsTable");
+    tableElement.innerHTML ="<tr><td>Name</td><td>Address</td><td>Coords</td> </tr>";
     if (xhr.readyState == 4 && xhr.status == 200) {
+        try{
+            console.log("no error")
+            map.removeLayer(what);
+        }catch(error){console.log("eor oegodfofd ho wer no nu uh:" + error)}
         console.log("Connected! " + xhr.readyState);
         let parser = new DOMParser();
+        let QueriedName, QueriedAddress, QueriedCoordinates;
+        let EstimatedTotal = parser.parseFromString(xhr.responseText,"text/xml").getElementsByTagName("EstimatedTotal")[0].childNodes[0].nodeValue;
+        for (let i = 0; i<EstimatedTotal; i++){
+            QueriedName = parser.parseFromString(xhr.responseText,"text/xml").getElementsByTagName("Name")[i].childNodes[0].nodeValue;
+            QueriedAddress = parser.parseFromString(xhr.responseText,"text/xml").getElementsByTagName("AddressLine")[i].childNodes[0].nodeValue;
+            QueriedCoordinates = [parser.parseFromString(xhr.responseText,"text/xml").getElementsByTagName("Latitude")[i].childNodes[0].nodeValue,parser.parseFromString(xhr.responseText,"text/xml").getElementsByTagName("Longitude")[i].childNodes[0].nodeValue];
+            console.log(QueriedCoordinates + " coords");
+            document.getElementById("queryResultsTable").innerHTML += '<tr onclick="pointQueriedLocation('+QueriedCoordinates.toString()+'); console.log(`helpme`)" class="queries"> <td>'+ QueriedName +"</td> <td>" + QueriedAddress + "</td> <td>" + QueriedCoordinates + "</tr>"
+        }
 
-        let QueriedAddress = parser.parseFromString(xhr.responseText,"text/xml").getElementsByTagName("AddressLine")[0].childNodes[0].nodeValue;
-        console.log(QueriedAddress + " address");
     }
     else{       
         return 0;
     }   
 }
+let marker;
+let pointQueriedLocation = function(Lat, Long){
+    let Coords = [Long, Lat]    
+
+    console.log("Pointed Coords: " + Coords)
+
+    map.removeLayer(marker);
+    let markerSource = new VectorSource({
+        features: [new Feature({
+        geometry: new Point(fromLonLat(Coords)),
+        name: 'makrer3', 
+        })]
+    });
+    marker = new VectorLayer({ 
+         source: markerSource,   style: new Style({
+            image: new Icon({
+            anchor: [0.5, 1],
+            src: '/assets/map_marker3.png',
+            scale: 0.05,
+            color:"#eeeeee"
+            })
+        })   });
+
+
+    map.addLayer(marker);   
+}
+window.pointQueriedLocation=pointQueriedLocation;
 const EtaOfRoute = function(xhr){
     if (xhr.readyState == 4 && xhr.status == 200) {
         console.log("Connected! " + xhr.readyState);
