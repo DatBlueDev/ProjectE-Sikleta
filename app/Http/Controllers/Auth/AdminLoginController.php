@@ -50,7 +50,7 @@ class AdminLoginController extends Controller
             return view('pages.admindashboard');
         }
         
-        return redirect()->route('adminlogin')
+        return redirect()->route('admin_authenticate')
             ->withErrors([
             'email' => 'Please login to access the dashboard.',
         ])->onlyInput('email');

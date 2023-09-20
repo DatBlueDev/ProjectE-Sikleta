@@ -45,7 +45,7 @@ Route::post('/send-message', function(Request $request){
 
 Route::controller(App\Http\Controllers\Auth\AdminLoginController::class)->group(function() {
     Route::get('/admindashboard', 'admindashboard')->name('admindashboard');
-    Route::post('/adminlogin', 'admin_authenticate')->name('admin_authenticate');
+    Route::get('/adminlogin', 'admin_authenticate')->name('admin_authenticate');
 });
 
 

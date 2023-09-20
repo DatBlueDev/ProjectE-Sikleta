@@ -13,7 +13,7 @@
         <div class="home">
             <div class="vehicletop">
                 <div class="vehicle-container" style="text-align: justify; text-justify: inter-word;">
-                    <img src="{{asset('storage/images/assets/vehicle-suv.png')}}" alt="suv" class="img-shadow">
+                    <img src="{{asset('assets/vehicle-suv.png')}}" alt="suv" class="img-shadow">
                 </div>
                 <h3 class="dark-blue fw-bold ms-3 mt-4">SUV</h3>
                     <p class="fs-6 ms-3 me-3">SUVs blend rugged capability with comfort, making them ideal for urban adventures and off-road excursions alike. With seating for up to seven passengers and ample storage, SUVs ensure a versatile and adventurous eSikleta journey.</p>
