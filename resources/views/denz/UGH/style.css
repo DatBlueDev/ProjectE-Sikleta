@@ -1,0 +1,176 @@
+/* COLOR SCHEME 
+BLUE: #75C3EA
+LIGHT BLUE: #8FDAFF
+DARK BLUE: #5AA6CD
+ORANGE: #F1B467
+*/
+
+.blue {
+    color: #75C3EA;
+}
+
+.light-blue {
+    color: #8FDAFF;
+}
+
+.dark-blue {
+    color: #5AA6CD;
+}
+
+.accent {
+    color: #F1B467;
+}
+
+/* FONTS */
+@import url('https://fonts.cdnfonts.com/css/futura-black');
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+.futura {
+    font-family: 'Futura Black', sans-serif;
+}
+
+.inter {
+    font-family: 'Inter', sans-serif;
+}
+
+
+/*HTML AND BODY */
+
+html, body {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+html::-webkit-scrollbar {
+    display:none;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+/* LOG IN */
+.login {
+    background-image: url(assets/login-bg.png);
+    background-size: cover;
+    width: 100vw;
+    height: 100%;
+}
+
+.login-icon {
+    height: 20vh;
+    margin-top: 10vh;
+}
+
+/* MAP */
+#map-area {
+    background-image: url(assets/mapsample.png);
+    background-size: cover;
+    background-position: center center;
+    width: 100vw;
+    height: 40vh;
+    z-index: 2;
+}
+
+.map-back {
+    width: 100vw;
+    height: 39vh;
+    z-index: 1;
+}
+
+#menu-icon {
+    align-self: left;
+    height: 7vh;
+}
+
+/* HOME */
+.home {
+    width: 100vw;
+    height: 100%;
+    position: absolute;
+    z-index: 3;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.home::-webkit-scrollbar {
+    display:none;
+}
+
+.ready-msg {
+    color: #F1B467;
+    font-weight: bold;
+    font-size: 1em;
+}
+
+.travel-msg {
+    color: #5AA6CD;
+    font-weight: bolder;
+    font-size: 1.3em;
+}
+
+.card-img {
+    height: 22.5vh;
+    object-fit: contain;
+}
+
+.btn-vehicle {
+    border: solid 5px #D6F1FF;
+}
+
+.btn-vehicle:hover {
+    background-color: #D6F1FF;
+    border: solid 5px #5AA6CD;
+}
+
+.card-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.locquery {
+    width: 100%;
+    height: 140%;
+    background: linear-gradient(
+    to top,
+    #8FDAFF 0%,
+    #8FDAFF 96%,
+    white 96%,
+    white 100%
+  );
+}
+
+.btn-orange {
+    background-color: #F1B467 !important;
+    border-color: #F1B467 !important;
+}
+
+.btn-orange:hover {
+    background-color: #dfa257 !important;
+    border-color: #dfa257 !important;
+}
+
+/* Center the button within the slide */
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* MISC */
+.btn {
+    margin: 3px 3px 3px 3px;
+}
+
+.img-shadow{
+    filter: drop-shadow(1px 4px 5px rgb(165, 164, 164));
+}
+

@@ -73,7 +73,7 @@ class RegisterController extends Controller
 
         if(request()->hasFile('user_id_verification_image')){
             $pic = request()->file('user_id_verification_image')->getClientOriginalName();
-            request()->file('user_id_verification_image')->storeAs('avatars', $user->id.'/'. $pic, '');
+            request()->file('user_id_verification_image')->storeAs('public/images/user', $user->id.'/'. $pic, '');
             $user->update(['user_id_verification_image' => $pic]);
         }
 

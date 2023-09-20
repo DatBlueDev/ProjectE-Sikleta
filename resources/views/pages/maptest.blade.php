@@ -96,7 +96,8 @@
       }
     </style>
 
-    @vite(['resources/sass/app.scss', 'resources/css/app.css', 'resources/js/app.js', 'resources/js/map.js'])
+    @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/js/map.js'])
+    @laravelPWA
 </head>
 <body>
     <div id="popup" class="ol-popup">

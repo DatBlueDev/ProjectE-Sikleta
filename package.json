@@ -3,7 +3,8 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "watch": "vite build --watch"
     },
     "devDependencies": {
         "@popperjs/core": "^2.11.6",
@@ -17,7 +18,10 @@
         "vue": "^3.2.37"
     },
     "dependencies": {
+        "laravel-echo": "^1.15.3",
         "laravel-mix": "^6.0.49",
-        "ol": "^8.1.0"
+        "ol": "^8.1.0",
+        "pusher-js": "^7.6.0",
+        "swiper": "^10.2.0"
     }
 }
