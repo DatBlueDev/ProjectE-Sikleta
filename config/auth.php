@@ -43,6 +43,10 @@ return [
         'acc_driver' => [
             'driver' => 'session',
             'provider' => 'drivers'
+        ],
+        'acc_admin' => [
+            'driver' => 'session',
+            'provider' => 'admin'
         ]
     ],
 
@@ -72,6 +76,10 @@ return [
         'drivers' => [
             'driver' => 'eloquent',
             'model' => App\Models\Driver::class,
+        ],
+        'admin' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\admin::class
         ]
     ],
 

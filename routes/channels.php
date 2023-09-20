@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+Broadcast::channel('private-chat.{username1}.{username2}', function ($user, $username1, $username2) {
+    return ($user->username === $username1) || ($user->username === $username2);
 });
+
+
+
+Broadcast::routes(['middleware' => ['web', 'auth']]);

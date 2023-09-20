@@ -17,7 +17,8 @@ class Driver extends Model implements Authenticatable
         'name',
         'email',
         'password',
-        'drivers_license_image'
+        'drivers_license_image',
+        'verified'
     ];
 
     /**

@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.admin_app')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+                <div class="card-header">{{ __('Admin Dashboard') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -13,11 +13,11 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    @if (Auth::user()->PWD == "0")
-                    {{ __('You are logged in!') }}
-                    @else
-                        {{ __('You are logged in as pwd!') }}
-                    @endif
+                    {{ __('Welcome Admin') }}
+                    <ul class="list-group">
+                        <a href="/verify_pwd"><li class="list-group-item">PWD Verification</li></a>
+                        <a href="/verify_driver"><li class="list-group-item">Driver Verification </li></a>
+                    </ul>
                 </div>
             </div>
         </div>
