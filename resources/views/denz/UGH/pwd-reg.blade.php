@@ -1,18 +1,26 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWD Registration - eSikleta</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css?<?php echo time(); ?>" />
+</head>
+<body>
+    <div class="login">
+        <div class="text-center">
+            <img src="assets/E-Sikleta_Icon_White_512.svg" alt="esikleta-icon" class="login-icon mx-auto">
+        </div>
 
-@section('content')
-<div class="login" style="background-image: url('{{asset('storage/images/assets/login-bg.png')}}')">
-<div class="text-center">
-    <img src="{{asset('storage/images/assets/E-Sikleta_Icon_White_512.svg')}}" alt="esikleta-icon" class="login-icon mx-auto">
-</div>
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+        <main class="container">
+            <div class="row justify-content-center rounded-3 mt-1">
+                <div class="col pt-5 mx-3"> 
+                    <div class="card bg-light-subtle mb-5">
+                        <h4 class="card-header">{{ ('PWD Registration') }}</h4>
+                        
+                        <div class="card-body">
+                            <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="row mb-3">
@@ -65,25 +73,29 @@
                             </div>
                         </div>
 
+                        <div class="row mb-3">
+                            <label class="col-md-4 col-form-label text-md-end" for="user_id_verification_image">{{ __('Upload Id') }}</label>
+                            <div class="col-md-6">
+                                <input type="file" class="form-control" id="user_id_verification_image" name="user_id_verification_image">
+                            </div>
+                          </div>
+
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Register') }}
                                 </button>
-                                <a href="/pwd"><button type="button" class="btn btn-secondary">
-                                    {{ __('PWD Registration') }}
-                                </button></a>
-                                <a href="/driver"><button type="button" class="btn btn-info">
-                                    {{ __('Driver Registration') }}
-                                </button></a>
                             </div>
                         </div>
 
                     </form>
+                        </div>
+
+                    </div>                       
                 </div>
             </div>
-        </div>
+        </main>
     </div>
-</div>
-</div>
-@endsection
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

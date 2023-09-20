@@ -15,6 +15,9 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <script>
+        window.csrfToken = "{{ csrf_token() }}";
+    </script>
 </head>
 <body>
     <div id="app">

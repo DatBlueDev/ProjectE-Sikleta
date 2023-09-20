@@ -19,6 +19,7 @@
                         {{ __('You are logged in as pwd!') }}
                     @endif
                 </div>
+                <a href="/messages"><button class="btn btn-primary">Message</button></a>
             </div>
         </div>
     </div>
