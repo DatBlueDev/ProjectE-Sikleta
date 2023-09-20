@@ -10,6 +10,9 @@ class PagesController extends Controller
 {
     public function index(){
         return view('pages.index');
+    }   
+    public function maptest(){
+        return view('pages.maptest');
     }
     public function pwd(){
         return view('auth.pwd');
