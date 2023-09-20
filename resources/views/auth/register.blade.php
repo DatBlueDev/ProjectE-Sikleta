@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="login" style="background-image: url('{{asset('storage/images/assets/login-bg.png')}}')">
+<div class="text-center">
+    <img src="{{asset('storage/images/assets/E-Sikleta_Icon_White_512.svg')}}" alt="esikleta-icon" class="login-icon mx-auto">
+</div>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -80,5 +84,6 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection

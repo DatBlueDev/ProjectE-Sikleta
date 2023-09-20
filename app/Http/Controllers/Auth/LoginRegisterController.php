@@ -55,7 +55,7 @@ class LoginRegisterController extends Controller
 
         if(request()->hasFile('drivers_license_image')){
             $pic = request()->file('drivers_license_image')->getClientOriginalName();
-            request()->file('drivers_license_image')->storeAs('avatars', $driver->id.'/'. $pic, '');
+            request()->file('drivers_license_image')->storeAs('public/images/driver', $driver->id.'/'. $pic, '');
             $driver->update(['drivers_license_image' => $pic]);
         }
 
@@ -109,10 +109,11 @@ class LoginRegisterController extends Controller
      */
     public function dashboard()
     {
+        
         $guardName = 'acc_driver';
         if(Auth::guard($guardName)->check())
         {
-            return view('driverdashboard');
+            return view('pages.driverdashboard');
         }
         
         return redirect()->route('login')
