@@ -10,10 +10,10 @@
 </head>
 <body>
     <main>
-        <div id="map-area" class="fixed-top" style="background-image: url('{{ asset('storage/images/assets/mapsample.png')}}');">
+        <div id="map-area" class="fixed-top" style="background-image: url('{{ asset('assets/mapsample.png')}}');">
             <div class="menu">
                 <button class="border border-0" style="background-color: transparent;">
-                    <img src=" {{asset('storage/images/assets/menu-icon.png')}}" alt="menuicon" id="menu-icon" class="mt-5 ms-4 p-0 img-shadow rounded-circle btn">
+                    <img src=" {{asset('assets/menu-icon.png')}}" alt="menuicon" id="menu-icon" class="mt-5 ms-4 p-0 img-shadow rounded-circle btn">
                 </button>
             </div>
         </div>
@@ -28,8 +28,6 @@
                 <h3 class="mb-1 ms-4 travel-msg">How would you like travel?</h3>
 
                 <div class="slide-container swiper mt-4">
-                    <div class="swiper-button-next swiper-navBtn"></div>
-                    <div class="swiper-button-prev swiper-navBtn"></div>
                     <div class="swiper-pagination"></div>
                     <div class="slide-content">
                         <div class="swiper-wrapper">
@@ -37,7 +35,7 @@
                             <div class="swiper-slide">
                                 <div class="card-wrapper mx-1">
                                     <button id="bus" class="btn btn-vehicle rounded-4 mx-auto" onClick="reply_click(this.id)">
-                                        <img src="{{asset('storage/images/assets/vehicle-bus.png')}}" class="card-img img-shadow" alt="bus">
+                                        <img src="{{asset('assets/vehicle-bus.png')}}" class="card-img img-shadow" alt="bus">
                                         <h5 class="dark-blue fw-bold">Bus</h5>
                                     </button>
                                 </div>
@@ -46,7 +44,7 @@
                             <div class="swiper-slide">
                                 <div class="card-wrapper mx-1">
                                     <button id="sedan" class="btn btn-vehicle rounded-4 mx-auto" onClick="reply_click(this.id)">
-                                        <img src="{{asset('storage/images/assets/vehicle-sedan.png')}}" class="card-img img-shadow" alt="bus">
+                                        <img src="{{asset('assets/vehicle-sedan.png')}}" class="card-img img-shadow" alt="bus">
                                         <h5 class="dark-blue fw-bold">Sedan</h5>
                                     </button>
                                 </div>
@@ -55,7 +53,7 @@
                             <div class="swiper-slide">
                                 <div class="card-wrapper mx-1">
                                     <button id="suv" class="btn btn-vehicle rounded-4 mx-auto" onClick="reply_click(this.id)">
-                                        <img src="{{asset('storage/images/assets/vehicle-suv.png')}}" class="card-img img-shadow" alt="bus">
+                                        <img src="{{asset('assets/vehicle-suv.png')}}" class="card-img img-shadow" alt="bus">
                                         <h5 class="dark-blue fw-bold">SUV</h5>
                                     </button>
                                 </div>
@@ -64,7 +62,7 @@
                             <div id="van" class="swiper-slide">
                                 <div class="card-wrapper mx-1">
                                     <button id="van" class="btn btn-vehicle rounded-4 mx-auto" onClick="reply_click(this.id)">
-                                        <img src="{{asset('storage/images/assets/vehicle-van.png')}}" class="card-img img-shadow" alt="bus">
+                                        <img src="{{asset('assets/vehicle-van.png')}}" class="card-img img-shadow" alt="bus">
                                         <h5 class="dark-blue fw-bold">Van</h5>
                                     </button>
                                 </div>
@@ -88,8 +86,6 @@
                 </div><!-- SAVED PLACES -->
 
                 <div class="slide-container swiper mt-4">
-                    <div class="swiper-button-next swiper-navBtn"></div>
-                    <div class="swiper-button-prev swiper-navBtn"></div>
                     <div class="swiper-pagination"></div>
                     <div class="slide-content">
                         <div class="swiper-wrapper">
@@ -98,7 +94,7 @@
                                 <div class="card-wrapper mx-1">
                                     <div class="svdplcdiv d-flex flex-column align-items-center mx-auto my-4" style="height: 20vh;">
                                         <div class="svdplcimg position-relative p-3 rounded-circle bg-body img-shadow btn">
-                                            <img src="{{asset('storage/images/assets/saved-loc-home.png')}}" alt="home icon" style="width: 100%; height: 7vh;">
+                                            <img src="{{asset('assets/saved-loc-home.png')}}" alt="home icon" style="width: 100%; height: 7vh;">
                                         </div>
                                         <div class="svdplctext text-center mt-2">
                                             <h4 class="fw-bold text-light">Home</h4>
@@ -111,7 +107,7 @@
                                 <div class="card-wrapper mx-1">
                                     <div class="svdplcdiv d-flex flex-column align-items-center mx-auto my-4" style="height: 20vh;">
                                         <div class="svdplcimg position-relative p-3 rounded-circle bg-body img-shadow btn">
-                                            <img src="{{asset('storage/images/assets/saved-loc-work.png')}}" alt="work icon" style="width: 100%; height: 7vh;">
+                                            <img src="{{asset('assets/saved-loc-work.png')}}" alt="work icon" style="width: 100%; height: 7vh;">
                                         </div>
                                         <div class="svdplctext text-center mt-2">
                                             <h4 class="fw-bold text-light">Work</h4>
@@ -124,7 +120,7 @@
                                 <div class="card-wrapper mx-1">
                                     <div class="svdplcdiv d-flex flex-column align-items-center mx-auto my-4" style="height: 20vh;">
                                         <div class="svdplcimg position-relative p-3 rounded-circle bg-body img-shadow btn">
-                                            <img src="{{asset('storage/images/assets/saved-loc-banner.png')}}" alt="banner icon" style="width: 100%; height: 7vh;">
+                                            <img src="{{asset('assets/saved-loc-banner.png')}}" alt="banner icon" style="width: 100%; height: 7vh;">
                                         </div>
                                         <div class="svdplctext text-center mt-2">
                                             <h4 class="fw-bold text-light">Saved 1</h4>
@@ -137,7 +133,7 @@
                                 <div class="card-wrapper mx-1">
                                     <div class="svdplcdiv d-flex flex-column align-items-center mx-auto my-4" style="height: 20vh;">
                                         <div class="svdplcimg position-relative p-3 rounded-circle bg-body img-shadow btn">
-                                            <img src="{{asset('storage/images/assets/saved-loc-add.png')}}" alt="add icon" style="width: 100%; height: 7vh;">
+                                            <img src="{{asset('assets/saved-loc-add.png')}}" alt="add icon" style="width: 100%; height: 7vh;">
                                         </div>
                                         <div class="svdplctext text-center mt-2">
                                             <h4 class="fw-bold text-light">Add</h4>

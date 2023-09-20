@@ -10,10 +10,10 @@
 </head>
 <body>
     <main>
-        <div id="map-area" class="fixed-top" style="background-image: url('{{ asset('storage/images/assets/mapsample.png')}}');">
+        <div id="map-area" class="fixed-top" style="background-image: url('{{ asset('assets/mapsample.png')}}');">
             <div class="menu">
                 <button class="border border-0" style="background-color: transparent;">
-                    <img src=" {{asset('storage/images/assets/menu-icon.png')}}" alt="menuicon" id="menu-icon" class="mt-5 ms-4 p-0 img-shadow rounded-circle btn">
+                    <img src=" {{asset('assets/menu-icon.png')}}" alt="menuicon" id="menu-icon" class="mt-5 ms-4 p-0 img-shadow rounded-circle btn">
                 </button>
             </div>
         </div>
@@ -30,7 +30,7 @@
                         <div class="card mb-3" style="min-width: 370px;">
                             <div class="row g-0">
                                 <div class="col-md-4" style="max-width:150px">
-                                    <img src="{{asset('storage/images/assets/fuxuan.jpg')}}" class="img-fluid rounded-start" alt="...">
+                                    <img src="{{asset('assets/fuxuan.jpg')}}" class="img-fluid rounded-start" alt="...">
                                 </div>
                                 <div class="col-md-8" style="max-width:234px">
                                     <div class="card-body">
@@ -112,7 +112,7 @@
                     <div class="card mb-3" style="min-width: 370px;">
                         <div class="row g-0">
                           <div class="col-md-4" style="max-width:150px">
-                            <img src="{{asset('storage/images/assets/fuxuan.jpg')}}" class="img-fluid rounded-start" alt="...">
+                            <img src="{{asset('assets/fuxuan.jpg')}}" class="img-fluid rounded-start" alt="...">
                           </div>
                           <div class="col-md-8" style="max-width:234px">
                             <div class="card-body">
