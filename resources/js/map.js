@@ -11,10 +11,9 @@ import VectorLayer from 'ol/layer/Vector';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import LineString from 'ol/geom/LineString';
-import Style from 'ol/style/Style';
-import Icon from 'ol/style/Icon';
-import Stroke from 'ol/style/Stroke';
 import Overlay from 'ol/Overlay';
+import Geolocation from 'ol/Geolocation.js';
+import {Circle as CircleStyle, Fill, Stroke, Style, Icon} from 'ol/style.js';
 
 import {Modify, defaults} from 'ol/interaction.js';
 
@@ -33,7 +32,7 @@ const mapElement = document.getElementById('osm_map');
 let sourceA = new VectorSource({
     features: [
         new Feature({
-            geometry: new Point(fromLonLat([120.5828, 15.1387]))
+            geometry: new Point(fromLonLat([-117.8471,33.8635]))
             
         })
     ]
@@ -50,10 +49,24 @@ let pointA = new VectorLayer({ // Placeholder function that draws a circle on a 
         })
     }) 
 });
+let sourceC = new VectorSource({
+})
+
+let pointC = new VectorLayer({ // Placeholder function that draws a circle on a specified coordinate
+    source: sourceC,
+    style: new Style({
+        image: new Icon({
+        anchor: [0.5, 1],
+        src: '/assets/map_marker3.png',
+        scale: 0.05,
+        color:"#ffffff"
+        })
+    }) 
+});
 let sourceB = new VectorSource({
     features: [
         new Feature({
-            geometry: new Point(fromLonLat([120.6009, 15.1387]))
+            geometry: new Point(fromLonLat([-118.2492,34.0705]))
             
         })
     ]
@@ -68,22 +81,14 @@ let pointB = new VectorLayer({ // Placeholder function that draws a circle on a 
         })
     }) 
 });
-const createWaypoint = function(layerVector, sourceVector){
 
-    const modify = new Modify({
-        hitDetection: layerVector,
-        source: sourceVector,
-    });
-    modify.on(['modifystart', 'modifyend'], function (evt) {
-        mapElement.style.cursor = evt.type === 'modifystart' ? 'grabbing' : 'pointer';
-    });
-    const overlaySource = modify.getOverlay().getSource();
-    overlaySource.on(['addfeature', 'removefeature'], function (evt) {
-        mapElement.style.cursor = evt.type === 'addfeature' ? 'pointer' : '';
-    });
-    return modify;
-}
 let map; // Initializes map 
+let mapView = new View({
+    center: [-13134430.871411238, 4021727.5382839725],
+    extent: [-13207322.873982674, 3949038.4688658006, -13058466.45089391, 4076583.5285595],
+
+    zoom: 10
+})
 let my_map = {    
     display: function () { // Defines and Displays the Map
         map = new Map({
@@ -95,17 +100,34 @@ let my_map = {
                     source: new OSM()
                 }), pointA, pointB
             ],
-            view: new View({
-                center: [13423815.894427149, 1705190.0197271176],
-                zoom: 15
-            }), interactions: defaults().extend([
+            view: mapView, interactions: defaults().extend([
                 createWaypoint(pointA, sourceA), createWaypoint(pointB, sourceB)
-            ]), overlays: [overlay],
+            ],), overlays: [overlay],
+            
         });
 
-    }
+    },
+    returnMap: function(){return map}
 };
-window.my_map = my_map; // Makes the map global. (might try to find a better way to call it outside the script)
+const createWaypoint = function(layerVector, sourceVector){
+
+    const modify = new Modify({
+        hitDetection: layerVector,
+        source: sourceVector,
+    });
+    modify.on(['modifystart', 'modifyend'], function (evt) {
+        mapElement.style.cursor = evt.type === 'modifystart' ? 'grabbing' : 'pointer';
+    });
+
+
+    const overlaySource = modify.getOverlay().getSource();
+    overlaySource.on(['addfeature', 'removefeature'], function (evt) {
+        mapElement.style.cursor = evt.type === 'addfeature' ? 'pointer' : '';
+    });
+    return modify;
+}
+
+// Makes the map global. (might try to find a better way to call it outside the script)
 
 
 let start;
@@ -138,13 +160,122 @@ const createReverseGeocodingRequest = function(coordinates){
     let xhr = new XMLHttpRequest(); // sets up bing api request
     console.log("Request made:" + xhr.readyState);
     xhr.onreadystatechange = function() {
-        ReverseGeocoding(xhr);
+       ReverseGeocoding(xhr);
     }
     xhr.onerror = function(e) { console.log("rvrs geocoding error"); }
     xhr.ontimeout = function(e) { console.log("rvrs geocoding timeout"); }
     xhr.open("GET", url, true);
     xhr.timeout = 3000;
     xhr.send();
+}
+
+const createEtaOfRouteRequest = function(travelMode) {
+
+    let origin = transform(sourceA.getFeatures()[0].getGeometry().getCoordinates(), 'EPSG:3857', 'EPSG:4326');
+    let destination = transform(sourceB.getFeatures()[0].getGeometry().getCoordinates(), 'EPSG:3857', 'EPSG:4326');
+    console.log(origin);
+    console.log(destination);
+    origin = [origin[1], origin[0]]
+    destination = [destination[1], destination[0]]
+
+    // origin = [120.5887, 15.1830]
+    // destination = [120.5769, 15.1573]
+    console.log("origin: " + origin + " | destination: " +  destination + " | travel mode: " +  travelMode)
+    url = "https://dev.virtualearth.net/REST/v1/Routes/DistanceMatrix?origins=" + origin +"&destinations=" + destination +"&travelMode=driving&key=" + bingKey;
+    console.log(url);
+    let xhr = new XMLHttpRequest(); // sets up bing api request
+    console.log("Request made:" + xhr.readyState);
+    xhr.onreadystatechange = function() {
+        EtaOfRoute(xhr);
+     }
+    xhr.onerror = function(e) { console.log("rvrs geocoding error"); }
+    xhr.ontimeout = function(e) { console.log("rvrs geocoding timeout"); }
+    xhr.open("GET", url, true);
+    xhr.timeout = 3000;
+    xhr.send();
+}
+window.createEtaOfRouteRequest = createEtaOfRouteRequest;
+const createQueryForLocationRequest = function(query){
+    query = encodeURIComponent(query.trim());
+    let Coords = transform(sourceA.getFeatures()[0].getGeometry().getCoordinates(), 'EPSG:3857', 'EPSG:4326'); 
+    Coords = [Coords[1], Coords[0]];
+    url = "https://dev.virtualearth.net/REST/v1/LocalSearch/?query=" + query + "&userLocation="+Coords + "&o=xml&key="+bingKey;
+    //&userMapView={lat,lon,lat,lon}
+    console.log(url);
+    let xhr = new XMLHttpRequest(); // sets up bing api request
+    console.log("Request made:" + xhr.readyState);
+    xhr.onreadystatechange = function() {
+        QueryForAddress(xhr);
+     }
+    xhr.onerror = function(e) { console.log("rvrs geocoding error"); }
+    xhr.ontimeout = function(e) { console.log("rvrs geocoding timeout"); }
+    xhr.open("GET", url, true);
+    xhr.timeout = 3000;
+    xhr.send();
+}
+window.createQueryForLocationRequest=createQueryForLocationRequest;
+const QueryForAddress = function(xhr){
+    let tableElement = document.getElementById("queryResultsTable");
+    tableElement.innerHTML ="<tr><td>Name</td><td>Address</td><td>Coords</td> </tr>";
+    if (xhr.readyState == 4 && xhr.status == 200) {
+        try{
+            console.log("no error")
+            map.removeLayer(what);
+        }catch(error){console.log("eor oegodfofd ho wer no nu uh:" + error)}
+        console.log("Connected! " + xhr.readyState);
+        let parser = new DOMParser();
+        let QueriedName, QueriedAddress, QueriedCoordinates;
+        let EstimatedTotal = parser.parseFromString(xhr.responseText,"text/xml").getElementsByTagName("EstimatedTotal")[0].childNodes[0].nodeValue;
+        for (let i = 0; i<EstimatedTotal; i++){
+            QueriedName = parser.parseFromString(xhr.responseText,"text/xml").getElementsByTagName("Name")[i].childNodes[0].nodeValue;
+            QueriedAddress = parser.parseFromString(xhr.responseText,"text/xml").getElementsByTagName("AddressLine")[i].childNodes[0].nodeValue;
+            QueriedCoordinates = [parser.parseFromString(xhr.responseText,"text/xml").getElementsByTagName("Latitude")[i].childNodes[0].nodeValue,parser.parseFromString(xhr.responseText,"text/xml").getElementsByTagName("Longitude")[i].childNodes[0].nodeValue];
+            console.log(QueriedCoordinates + " coords");
+            document.getElementById("queryResultsTable").innerHTML += '<tr onclick="pointQueriedLocation('+QueriedCoordinates.toString()+'); console.log(`helpme`)" class="queries"> <td>'+ QueriedName +"</td> <td>" + QueriedAddress + "</td> <td>" + QueriedCoordinates + "</tr>"
+        }
+
+    }
+    else{       
+        return 0;
+    }   
+}
+let marker;
+let pointQueriedLocation = function(Lat, Long){
+    let Coords = [Long, Lat]    
+
+    console.log("Pointed Coords: " + Coords)
+
+    map.removeLayer(marker);
+    let markerSource = new VectorSource({
+        features: [new Feature({
+        geometry: new Point(fromLonLat(Coords)),
+        name: 'makrer3', 
+        })]
+    });
+    marker = new VectorLayer({ 
+         source: markerSource,   style: new Style({
+            image: new Icon({
+            anchor: [0.5, 1],
+            src: '/assets/map_marker3.png',
+            scale: 0.05,
+            color:"#eeeeee"
+            })
+        })   });
+
+
+    map.addLayer(marker);   
+}
+window.pointQueriedLocation=pointQueriedLocation;
+const EtaOfRoute = function(xhr){
+    if (xhr.readyState == 4 && xhr.status == 200) {
+        console.log("Connected! " + xhr.readyState);
+
+        let ETA = JSON.parse(xhr.responseText).resourceSets[0].resources[0].results[0].travelDuration;
+        console.log(ETA + " minutes");
+    }
+    else{       
+        return 0;
+    }   
 }
 window.createReverseGeocodingRequest = createReverseGeocodingRequest;
 const element = document.getElementById('popup');
@@ -155,12 +286,10 @@ const ReverseGeocoding = function(xhr){
 
         let parser = new DOMParser();
         let Address = parser.parseFromString(xhr.responseText,"text/xml").getElementsByTagName("Name")[0].childNodes[0].nodeValue;
-        console.log("Calculation Results: " +  Address);
         drawPopUp(Address);
 
     }
     else{
-        console.log("Not ready...")
         return 0;
     }
 }
@@ -208,10 +337,11 @@ var displayRouting = function(linestring){
 // Runs on click on map, gets coordinate values (EPSG 4326), stores them into array as double
 const getCoordsFromMouseCoords = function(){
     // Gets values in string form, then turns the array into a string
-    var Coords = (document.getElementById('mouse-position').innerText.split(", ")).toString(); 
+    var Coords = (document.querySelector('.custom-mouse-position').textContent.split(", "))
+    console.log("raw coords:" + Coords)
+    var Coords = [parseFloat(Coords[0]), parseFloat(Coords[1])]
     // Converts stringified array into array with double values of coordinates
-    Coords = Coords.match(/\d+(?:\.\d+)?/g).map(Number)
-    console.log(Coords);
+    console.log("Coords after?: " + Coords);
     return Coords;
 }
 
@@ -220,6 +350,11 @@ const getCoordsFromMouseCoords = function(){
 const container = document.getElementById('popup');
 const content = document.getElementById('popup-content');
 const closer = document.getElementById('popup-closer');
+closer.onclick = function() {
+    overlay.setPosition(undefined);
+    closer.blur();
+    return false;
+  };
 const overlay = new Overlay({
     element: container,
     autoPan: {
@@ -230,18 +365,92 @@ const overlay = new Overlay({
   });
 
 let CoordinatesPopup;
-let definePopupContents = function(){
-    CoordinatesPopup = transform(getCoordsFromMouseCoords(), 'EPSG:4326', 'EPSG:3857');
-    console.log("coords: " + getCoordsFromMouseCoords());
-    createReverseGeocodingRequest(getCoordsFromMouseCoords());
+
+let definePopupContents = function(Waypoint){
+    console.log("Coords of waypoint: " + sourceA.getFeatures()[0].getGeometry().getCoordinates());
+    let Coords;
+
+    Coords = transform(Waypoint.getGeometry().getCoordinates(), 'EPSG:3857', 'EPSG:4326'); 
+//    start = transform(coordinates[0], 'EPSG:3857', 'EPSG:4326').reverse().toString(); 
+
+    
+    CoordinatesPopup = transform(Coords, 'EPSG:4326', 'EPSG:3857');
+    console.log("coords: " + Coords);
+    createReverseGeocodingRequest(Coords);
 
 };
 let drawPopUp = function(Address){
-    console.log("address dapat to" + Address);
     content.innerHTML = '<p>You clicked here:</p><code>' +Address + '</code>';
     overlay.setPosition(CoordinatesPopup);
 }
+const startUpGeoLocation = function(){
+const geolocation = new Geolocation({
+    // enableHighAccuracy must be set to true to have the heading value.
+    trackingOptions: {
+      enableHighAccuracy: true,
+    },
+    projection: mapView.getProjection(),
+});
+  
+function el(id) {
+    return document.getElementById(id);
+}
+
+el('track').addEventListener('change', function () {
+    geolocation.setTracking(this.checked);
+});
+
+// update the HTML page when the position changes.
+geolocation.on('change', function () {
+el('accuracy').innerText = geolocation.getAccuracy() + ' [m]';
+el('altitude').innerText = geolocation.getAltitude() + ' [m]';
+el('altitudeAccuracy').innerText = geolocation.getAltitudeAccuracy() + ' [m]';
+el('heading').innerText = geolocation.getHeading() + ' [rad]';
+el('speed').innerText = geolocation.getSpeed() + ' [m/s]';
+});
+
+// handle geolocation error.
+geolocation.on('error', function (error) {
+const info = document.getElementById('info');
+    info.innerHTML = error.message;
+    info.style.display = '';
+    });
+    
+    const accuracyFeature = new Feature();
+    geolocation.on('change:accuracyGeometry', function () {
+    accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
+    });
+
+    const positionFeature = new Feature();
+    positionFeature.setStyle(
+    new Style({
+        image: new CircleStyle({
+        radius: 6,
+        fill: new Fill({
+            color: '#3399CC',
+        }),
+        stroke: new Stroke({
+            color: '#fff',
+            width: 2,
+        }),
+        }),
+    })
+    );
+    
+    geolocation.on('change:position', function () {
+        const coordinates = geolocation.getPosition();
+        positionFeature.setGeometry(coordinates ? new Point(coordinates) : null);
+    });
+    new VectorLayer({
+        map: my_map.returnMap(),
+        source: new VectorSource({
+        features: [accuracyFeature, positionFeature],
+        }),
+    });
+}
+console.log(my_map.returnMap)
 window.definePopupContents = definePopupContents;
 window.getCoordsFromMouseCoords = getCoordsFromMouseCoords;
-
+window.my_map = my_map; 
+window.startUpGeoLocation = startUpGeoLocation;
 // Requests API thingies 

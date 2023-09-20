@@ -6,8 +6,9 @@
     <style>
         #osm_map {
             position: absolute;
-            width: 90%;
-            height: 90%;
+            width: 60%;
+            height: 60%;
+            top:6%;
         }
         #mouse-position{
             position: absolute;
@@ -22,6 +23,17 @@
         #getReverseGeolocationButton{
             position: absolute;
             left:20%;
+            bottom:0;
+        }
+        #getAddressFromQueryButton
+        {
+            position: absolute;
+            left:30%;
+            bottom:0;
+        }
+        #getWhateverTheHellAnymoreMan{
+          position: absolute;
+            left:50%;
             bottom:0;
         }
         .ol-popup {
@@ -65,6 +77,23 @@
       .ol-popup-closer:after {
         content: "✖";
       }
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+      }
+
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+      .queries:hover{
+        background: #999999;
+      }
     </style>
 
     @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/js/map.js'])
@@ -76,15 +105,62 @@
         <div id="popup-content"></div>
       </div>
     <div id="app">
-        <div id="osm_map" onclick="getCoordsFromMouseCoords(); definePopupContents();"></div>
+        <div id="osm_map" onclick="getCoordsFromMouseCoords();"></div>
     </div>
     <div id="mouse-position"></div>
     <button class="button button-primary" id="getRouteButton" onclick = "createNewRoutingRequest();">Calculate Route</button>
-    <button class="button button-primary" id="getReverseGeolocationButton" onclick = "reverseGeocode();">Reverse Geocalc</button>
+    <button class="button button-primary" id="getReverseGeolocationButton" onclick = "createEtaOfRouteRequest('driving')">eta</button>
+    <button class="button button-primary" id="getAddressFromQueryButton" onclick = "createQueryForLocationRequest('cafe')">queryAddress</button>
+    <button class="button button-primary" id="getWhateverTheHellAnymoreMan" onclick = "pointQueriedLocation([-118.1871, 33.8877])">hindi ko na kaya this shit</button>
 
+    <div id="info" style="display: none;"></div>
+    <label for="track">
+      track position
+      <input id="track" type="checkbox"/>
+    </label>
+    <p>
+      position accuracy : <code id="accuracy"></code>&nbsp;&nbsp;
+      altitude : <code id="altitude"></code>&nbsp;&nbsp;
+      altitude accuracy : <code id="altitudeAccuracy"></code>&nbsp;&nbsp;
+      heading : <code id="heading"></code>&nbsp;&nbsp;
+      speed : <code id="speed"></code>
+    </p>
+
+    <div  class = "container" style="margin-right:-60%;">
+      <table id = "queryResultsTable">
+        <tr>
+          <td>Name</td>
+          <td>Address</td>
+          <td>Coords</td>
+        </tr>
+
+        
+      </table>
+
+    </div>
     <script type="module">
         let emu = new my_map.display();
-    </script>
+
+        let selected = null;
+            console.log("e")
+       // my_map.returnMap().on('pointermove', function (e) {
+
+            my_map.returnMap().on('click', function (evt) {
+                if (selected !== null){
+                    selected=null;
+                }
+                my_map.returnMap().forEachFeatureAtPixel(evt.pixel, function (f) {
+
+                    selected = f;
+                    definePopupContents(f); 
+                    console.log(f);
+                    return true;
+                }, {hitTolerance:5})
+                console.log("what");
+            });
+            startUpGeoLocation();
+       // });
+        </script>
 
 </body>
 </html>
