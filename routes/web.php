@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\PagesController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -26,6 +27,8 @@ Route::get('/suv', 'App\Http\Controllers\PagesController@suv');
 Route::get('/van', 'App\Http\Controllers\PagesController@van');
 
 Route::get('/maptest', [PagesController::class, 'maptest']);
+Route::get('/booking', [BookController::class, 'index']);
+
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::post('test/auth', array('uses' => 'App\Http\Controllers\TestController@postAuth'));

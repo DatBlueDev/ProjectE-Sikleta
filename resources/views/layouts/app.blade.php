@@ -15,6 +15,8 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    @laravelPWA
     <script>
         window.csrfToken = "{{ csrf_token() }}";
     </script>
